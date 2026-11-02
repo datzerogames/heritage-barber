@@ -1,0 +1,9 @@
+{
+  "appId": "com.heritagebarber.app",
+  "appName": "Heritage Barber",
+  "webDir": "www",
+  "backgroundColor": "#19120b",
+  "android": {
+    "backgroundColor": "#19120b"
+  }
+}

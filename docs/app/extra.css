@@ -1,0 +1,57 @@
+/* Ajustes do app (Android / versão demo / versão completa) */
+html,body{margin:0;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+.top{padding-top:calc(12px + env(safe-area-inset-top,0px))}
+#vAuth .app{padding-top:calc(20px + env(safe-area-inset-top,0px))}
+
+.boot{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--floor);color:var(--copper);text-align:center;padding:24px}
+.boot .msi{font-size:56px;animation:pulse 1.4s ease-in-out infinite}
+.boot b{font:700 30px/36px var(--serif)}
+.boot small{color:var(--outline);font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.boot p{color:var(--muted);max-width:420px;margin:8px 0 0;line-height:1.5}
+.boot code{background:var(--t3);padding:2px 6px;border-radius:4px;color:var(--copper-light)}
+@keyframes pulse{50%{opacity:.4}}
+
+.demo-bar{margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border-radius:6px;background:rgba(233,143,88,.12);border:1px solid rgba(255,182,140,.35);color:var(--leather);font-size:12.5px;line-height:17px}
+.demo-bar .msi{font-size:18px}
+.demo-bar span.t{flex:1;min-width:180px;color:var(--text)}
+.demo-bar button{background:none;border:0;padding:0;color:var(--copper);text-decoration:underline;font-size:12.5px}
+
+.auth-demo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.auth-demo .btn{padding:0 8px;font-size:13px}
+.nav #navAdmin button{font-size:10.5px}
+
+/* ===== Barra de atalhos em vidro (glassmorphism) nas cores Heritage ===== */
+.nav{background:transparent;border:0;box-shadow:none;pointer-events:none;
+  padding:0 max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.nav > div{pointer-events:auto;position:relative;overflow:hidden;max-width:520px;padding:10px 6px 8px;border-radius:30px;
+  background:linear-gradient(135deg,rgba(110,88,66,.40) 0%,rgba(52,40,30,.34) 55%,rgba(96,72,52,.42) 100%);
+  -webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);
+  border:1px solid rgba(233,193,118,.26);
+  box-shadow:0 14px 34px -8px rgba(10,6,3,.75),0 2px 6px rgba(10,6,3,.35),inset 0 1px 0 rgba(255,235,200,.16),inset 0 -1px 0 rgba(0,0,0,.25)}
+/* brilho do vidro: reflexo suave no topo */
+.nav > div::before{content:"";position:absolute;inset:0 0 50% 0;border-radius:30px 30px 60% 60%/30px 30px 18px 18px;
+  background:linear-gradient(180deg,rgba(255,236,205,.10),rgba(255,236,205,0));pointer-events:none}
+.nav button{position:relative;gap:3px;padding:4px 0 2px;color:rgba(240,224,212,.62);font-weight:600;transition:color .2s}
+.nav button .msi{font-size:24px;transition:transform .2s,text-shadow .2s}
+.nav button:hover{color:var(--text)}
+.nav button.cur{color:var(--copper)}
+.nav button.cur .msi{text-shadow:0 0 14px rgba(233,193,118,.55)}
+/* pontinho do atalho ativo */
+.nav button::after{content:"";width:5px;height:5px;border-radius:50%;margin-top:3px;background:transparent;transition:background .2s,box-shadow .2s}
+.nav button.cur::after{background:var(--copper);box-shadow:0 0 8px rgba(233,193,118,.85)}
+.nav button:active .msi{transform:scale(.92)}
+/* o botão flutuante fica acima da barra de vidro */
+.fab{bottom:calc(104px + env(safe-area-inset-bottom,0px))}
+.app{padding-bottom:150px}
+@media (prefers-reduced-motion:reduce){.nav button,.nav button .msi,.nav button::after{transition:none}}
+.auth-demo .btn{height:52px}
+.auth-note{margin:14px 0 0;text-align:center;color:var(--outline);font-size:12px}
+
+.wa{color:var(--green)!important;border-color:rgba(177,206,183,.45)!important}
+.pay{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.pay .f{flex:1 1 160px}
+.pay .btn{flex:1 1 180px}
+.hint{color:var(--outline);font-size:12px;margin:0}
+
+/* selo de queda no caixa */
+.trend.neg{background:rgba(233,143,88,.18);color:var(--leather)}

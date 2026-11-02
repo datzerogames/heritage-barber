@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#19120b">
+<title>Heritage Barber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..400,0..1,0&display=block">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="extra.css">
+</head>
+<body>
+
+<div class="boot" id="boot"><span class="msi fill">content_cut</span><b>Heritage</b><small>Barber CRM</small><p id="bootMsg">Carregando…</p></div>
+
+<div id="vAuth" hidden>
+  <div class="app" style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px">
+    <div class="box" style="width:100%;max-width:380px">
+      <h2 style="margin:0 0 20px;text-align:center;color:var(--copper)"><span class="msi fill">content_cut</span> Heritage</h2>
+      <p style="margin:-14px 0 20px;text-align:center;font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--outline)" id="authSub">Barber CRM</p>
+      <form id="authForm" novalidate>
+        <div class="f full" style="margin-bottom:16px"><label for="authEmail">Email</label><input id="authEmail" type="email" inputmode="email" autocomplete="username" placeholder="seu@email.com"></div>
+        <div class="f full" style="margin-bottom:16px"><label for="authPass">Senha</label><input id="authPass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+        <div style="text-align:right"><button type="button" id="toggleAuth" style="background:none;border:0;padding:0;color:var(--copper);text-decoration:underline;font-size:13px">Não tenho conta — criar agora</button></div>
+        <button type="submit" class="btn btn-p" style="height:52px;margin-top:16px;width:100%">Entrar</button>
+        <div class="auth-demo" id="demoBtns" hidden>
+          <button type="button" class="btn" data-demo-login="admin"><span class="msi">storefront</span>Dono</button>
+          <button type="button" class="btn" data-demo-login="barbeiro"><span class="msi">content_cut</span>Barbeiro</button>
+          <button type="button" class="btn" data-demo-login="cliente"><span class="msi">person</span>Cliente</button>
+        </div>
+        <p class="auth-note" id="authNote"></p>
+      </form>
+      <form id="authForm2" novalidate hidden style="display:flex;flex-direction:column;gap:12px">
+        <p id="signNote" hidden style="margin:0 0 4px;padding:10px 12px;border-radius:6px;background:rgba(53,79,61,.45);color:var(--text);font-size:13px;line-height:18px"><b style="color:var(--green)">Crie a conta do dono da barbearia.</b><br>Ela vai ter acesso ao Painel, Agenda, Clientes e Caixa. Depois, os clientes criam as contas deles.</p>
+        <div class="f"><label for="signNome">Nome completo</label><input id="signNome" autocomplete="name" placeholder="João Silva"></div>
+        <div class="f"><label for="signEmail">Email</label><input id="signEmail" type="email" inputmode="email" autocomplete="email" placeholder="seu@email.com"></div>
+        <div class="f"><label for="signTel">WhatsApp</label><input id="signTel" inputmode="tel" autocomplete="tel" placeholder="(11) 9XXXX-XXXX"></div>
+        <div class="f"><label for="signPass">Criar senha (mínimo 6 caracteres)</label><input id="signPass" type="password" autocomplete="new-password" placeholder="••••••••"></div>
+        <button type="submit" class="btn btn-p" style="height:52px">Criar conta</button>
+        <button type="button" id="backLogin" class="btn" style="height:52px">Voltar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="app" hidden>
+  <header class="top">
+    <button class="logo" type="button" id="logoBtn" aria-label="Ir para o início"><span class="msi fill">content_cut</span></button>
+    <div class="brand"><h1>Heritage</h1><small id="titleTop">Barber CRM</small></div>
+    <div class="sp"></div>
+    <button class="btn" type="button" id="logoutBtn" style="height:40px"><span class="msi">logout</span>Sair</button>
+  </header>
+
+  <div class="demo-bar" id="demoBar" hidden><span class="msi">science</span><span class="t"><b>Versão demonstração.</b> Os dados são fictícios e ficam só neste aparelho.</span><button type="button" id="reset">Restaurar exemplos</button></div>
+
+  <div id="vDash"><div id="dashList"></div></div>
+
+  <div id="vAgenda" hidden>
+    <div class="tools">
+      <label class="search" for="qa"><span class="msi">search</span><input id="qa" type="search" placeholder="Buscar cliente ou barbeiro…" autocomplete="off"></label>
+      <div class="chips" id="chips" role="group" aria-label="Filtrar por barbeiro"></div>
+    </div>
+    <div class="agenda" id="agenda"></div>
+  </div>
+
+  <div id="vClientes" hidden>
+    <div class="tools">
+      <label class="search" for="qc"><span class="msi">search</span><input id="qc" type="search" placeholder="Buscar cliente ou telefone…" autocomplete="off"></label>
+    </div>
+    <div class="grid" id="cGrid"></div>
+  </div>
+
+  <div id="vFinanceiro" hidden>
+    <section class="dash" aria-label="Resumo financeiro" style="margin-top:16px">
+      <h2><span class="msi">payments</span>Livro caixa</h2>
+      <div class="kpis" id="fKpis"></div>
+    </section>
+    <div class="sec-row"><h2 class="sec">Movimentação de hoje</h2><small id="fHojeQtd"></small></div>
+    <div class="grid" id="fGrid" style="margin-top:0"></div>
+    <div class="sec-row"><h2 class="sec">Por barbeiro • mês</h2><small>Comissão 30%</small></div>
+    <div class="agd-list" id="fBarb"></div>
+  </div>
+
+  <div id="vEquipe" hidden>
+    <div class="sec-row" style="margin-top:20px"><h2 class="sec">Equipe</h2><small id="eqQtd"></small></div>
+    <p class="hint" style="margin:-4px 0 12px">Cada barbeiro com login entra no app com o próprio email e vê só a agenda dele.</p>
+    <button class="btn btn-p" type="button" id="eqAdd" style="width:100%"><span class="msi">person_add</span>Adicionar barbeiro</button>
+    <div class="grid" id="eqLista"></div>
+  </div>
+
+  <div id="vBarbDia" hidden><div id="barbDiaList"></div></div>
+
+  <div id="vClienteAgenda" hidden>
+    <section class="dash" aria-label="Agendar horário" style="margin-top:16px">
+      <h2><span class="msi">calendar_month</span>Marcar horário</h2>
+      <p style="color:var(--muted);margin:8px 0 0;font-size:13px">Escolha o dia e depois o horário que preferir.</p>
+    </section>
+    <div style="margin-top:16px;display:flex;flex-direction:column;gap:12px" id="calAgenda"></div>
+  </div>
+
+  <div id="vClientePerfil" hidden>
+    <section class="dash" aria-label="Meu perfil" style="margin-top:16px">
+      <h2><span class="msi">account_circle</span>Meu perfil</h2>
+      <div class="box" style="margin-top:12px">
+        <div style="display:grid;gap:10px">
+          <div><small style="color:var(--muted)">NOME</small><div style="font-weight:600" id="perfilNome">—</div></div>
+          <div><small style="color:var(--muted)">EMAIL</small><div id="perfilEmail">—</div></div>
+          <div><small style="color:var(--muted)">WHATSAPP</small><div id="perfilTel">—</div></div>
+          <div><small style="color:var(--muted)">MEUS AGENDAMENTOS</small><div id="perfilAgendamentos">—</div></div>
+        </div>
+      </div>
+    </section>
+    <div class="sec-row"><h2 class="sec">Histórico</h2></div>
+    <div id="perfilHist"></div>
+  </div>
+</div>
+
+<button class="btn btn-p fab" id="newBtn" type="button" hidden><span class="msi">add</span><span>Novo agendamento</span></button>
+
+<nav class="nav" aria-label="Seções" hidden>
+  <div id="navAdmin" style="grid-template-columns:repeat(5,1fr)">
+    <button class="cur" type="button" data-v="dash"><span class="msi fill">dashboard</span>Painel</button>
+    <button type="button" data-v="agenda"><span class="msi">calendar_today</span>Agenda</button>
+    <button type="button" data-v="clientes"><span class="msi">badge</span>Clientes</button>
+    <button type="button" data-v="financeiro"><span class="msi">receipt_long</span>Caixa</button>
+    <button type="button" data-v="equipe"><span class="msi">groups</span>Equipe</button>
+  </div>
+  <div id="navBarb" hidden style="grid-template-columns:repeat(2,1fr);max-width:320px">
+    <button type="button" data-v="barbDia"><span class="msi">today</span>Meu dia</button>
+    <button type="button" data-v="agenda"><span class="msi">calendar_today</span>Minha agenda</button>
+  </div>
+  <div id="navCliente" hidden style="grid-template-columns:repeat(2,1fr);max-width:320px">
+    <button class="cur" type="button" data-v="clienteAgenda"><span class="msi fill">calendar_month</span>Agendar</button>
+    <button type="button" data-v="clientePerfil"><span class="msi">account_circle</span>Meu perfil</button>
+  </div>
+</nav>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div id="modal"></div>
+
+<script src="mode.js"></script>
+<script src="config.js"></script>
+<script src="vendor/supabase.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

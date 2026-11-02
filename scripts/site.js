@@ -1,0 +1,66 @@
+// Monta o site do GitHub Pages em docs/:
+//   docs/index.html  → página de download (APKs ficam nas Releases do GitHub)
+//   docs/app/        → o app no navegador (demo: app/?demo=1)
+//   docs/qr.png      → QR code da página
+// Uso: node scripts/site.js usuario/repositorio
+const fs=require("fs"),path=require("path"),QR=require("qrcode");
+const REPO=process.argv[2];if(!REPO||!REPO.includes("/")){console.error("Uso: node scripts/site.js usuario/repositorio");process.exit(1)}
+const [dono,nome]=REPO.split("/");
+const RAIZ=path.join(__dirname,".."),DOCS=path.join(RAIZ,"docs");
+const SITE=`https://${dono.toLowerCase()}.github.io/${nome}/`;
+const DL=`https://github.com/${REPO}/releases/latest/download/`;
+
+fs.rmSync(path.join(DOCS,"app"),{recursive:true,force:true});
+fs.mkdirSync(DOCS,{recursive:true});
+fs.cpSync(path.join(RAIZ,"www"),path.join(DOCS,"app"),{recursive:true});
+fs.writeFileSync(path.join(DOCS,".nojekyll"),"");
+
+const html=`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Heritage Barber — baixar o app</title><meta name="theme-color" content="#19120b">
+<link rel="icon" href="app/icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap">
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}
+body{margin:0;background:#19120b;color:#f0e0d4;font:15px/1.5 "Plus Jakarta Sans",system-ui,sans-serif;padding:28px 16px 48px}
+.w{max-width:960px;margin:0 auto;display:grid;gap:24px;grid-template-columns:1fr}
+@media(min-width:820px){.w{grid-template-columns:1.2fr .8fr;align-items:start}}
+h1{font:700 40px/46px "Playfair Display",Georgia,serif;color:#e9c176;margin:0}
+.sub{color:#9a8f80;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin:4px 0 16px}
+.c{background:#261e17;border:1px solid rgba(197,160,89,.25);border-radius:8px;padding:18px;margin-top:12px}
+.c.d{border-color:#c5a059}
+.c b{font:700 21px "Playfair Display",Georgia,serif;color:#e9c176}
+.c p{margin:4px 0 12px;color:#b3a796;font-size:14px}
+a.bt{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border-radius:4px;background:#c5a059;color:#1a140f;font-weight:700;text-decoration:none;padding:0 16px}
+a.bt.s{background:transparent;color:#f0e0d4;border:1px solid rgba(197,160,89,.5)}
+ol{color:#b3a796;font-size:14px;padding-left:20px;margin:6px 0 0}
+.qr{background:#fff;border-radius:8px;padding:14px;max-width:300px;margin:0 auto}
+.qr img{width:100%;display:block}
+.side{text-align:center}
+.side small{color:#9a8f80;display:block;margin-top:10px}
+footer{grid-column:1/-1;color:#7d7366;font-size:12px;text-align:center}
+footer a{color:#9a8f80}
+</style></head><body><div class="w">
+<main>
+  <h1>✂ Heritage</h1><div class="sub">Barber CRM • Download</div>
+  <div class="c d"><b>Heritage Demo</b><p>Versão de demonstração com clientes e agendamentos de exemplo. Funciona sem internet e sem cadastro — entre como Barbeiro ou Cliente com um toque.</p><a class="bt" href="${DL}Heritage-Barber-DEMO.apk">⬇ Baixar app Android (demo)</a></div>
+  <div class="c"><b>Heritage Barber</b><p>Versão completa, online: o cliente agenda pelo celular e o barbeiro vê na hora.</p><a class="bt s" href="${DL}Heritage-Barber.apk">⬇ Baixar app Android (completo)</a></div>
+  <div class="c"><b>Testar no navegador</b><p>Abre a demo direto aqui, sem instalar nada (celular ou computador).</p><a class="bt s" href="app/?demo=1">Abrir demo no navegador</a></div>
+  <div class="c"><b>Como instalar no Android</b><ol>
+    <li>Toque em <b style="font:inherit;color:#e9c176">Baixar app Android</b>.</li>
+    <li>Abra o arquivo baixado (notificação ou pasta Downloads).</li>
+    <li>Se aparecer "instalação bloqueada", toque em <i>Configurações</i> e ative <i>Permitir desta fonte</i>.</li>
+    <li>Toque em <i>Instalar</i>.</li></ol></div>
+</main>
+<aside class="side">
+  <div class="qr"><img src="qr.png" alt="QR code desta página"></div>
+  <small>Aponte a câmera do celular para abrir esta página.<br>${SITE}</small>
+</aside>
+<footer><a href="https://github.com/${REPO}">Código no GitHub</a> · <a href="https://github.com/${REPO}/releases">Todas as versões</a></footer>
+</div></body></html>`;
+fs.writeFileSync(path.join(DOCS,"index.html"),html);
+
+(async()=>{
+  await QR.toFile(path.join(DOCS,"qr.png"),SITE,{width:600,margin:2,color:{dark:"#19120b",light:"#ffffff"}});
+  if(fs.existsSync(path.join(RAIZ,"assets","icon-only.png")))fs.copyFileSync(path.join(RAIZ,"assets","icon-only.png"),path.join(DOCS,"app","icon.png"));
+  console.log("Site gerado em docs/ → "+SITE);
+})();

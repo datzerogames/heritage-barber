@@ -1,0 +1,21 @@
+{
+  "name": "heritage-barber",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Heritage Barber CRM — app Android (versão completa e demo)",
+  "scripts": {
+    "vendor": "node -e \"require('fs').copyFileSync(require.resolve('@supabase/supabase-js/dist/umd/supabase.js'),'www/vendor/supabase.js')\"",
+    "sync": "npm run vendor && npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.6.9",
+    "@capacitor/app": "^7.1.2",
+    "@capacitor/core": "^7.6.9",
+    "@supabase/supabase-js": "^2.118.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.6.9",
+    "qrcode": "^1.5.4"
+  }
+}

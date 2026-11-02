@@ -1,0 +1,21 @@
+node_modules/
+APKs/
+*.apk
+*.aab
+*.jks
+*.keystore
+
+# gerados pelo Android / Capacitor
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/app/src/main/assets/capacitor.plugins.json
+android/capacitor-cordova-android-plugins/build/
+android/.idea/
+*.iml
+
+# a versão do site em docs/app é gerada por scripts/site.js
+www/vendor/
